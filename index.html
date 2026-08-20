@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resume Scan — ATS Match Analyzer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">ATS Simulator</p>
+      <h1>Will your resume pass the scan?</h1>
+      <p class="subtitle">Paste your resume and a job description. We'll check keyword overlap, readability, and tell you exactly what to fix — the same way an Applicant Tracking System would.</p>
+    </div>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" aria-pressed="false">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="scan-bay">
+    <div class="tray" id="resumeTray">
+      <label for="resumeInput">Your Resume</label>
+      <textarea id="resumeInput" placeholder="Paste your resume text here..." aria-label="Resume text"></textarea>
+      <div class="tray-footer"><span id="resumeCount">0 words</span><span>Tray A</span></div>
+    </div>
+    <div class="tray" id="jdTray">
+      <label for="jdInput">Job Description</label>
+      <textarea id="jdInput" placeholder="Paste the job description here..." aria-label="Job description text"></textarea>
+      <div class="tray-footer"><span id="jdCount">0 words</span><span>Tray B</span></div>
+    </div>
+  </section>
+
+  <div class="scan-control">
+    <button class="run-scan" id="scanBtn" disabled>Run Scan</button>
+    <p class="hint" id="scanHint">Paste a few sentences in both trays to enable scanning.</p>
+  </div>
+
+  <section class="results" id="results" hidden aria-live="polite">
+
+    <div class="two-col">
+      <div class="card gauge-card">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 120" id="gaugeSvg">
+            <path d="M10,110 A90,90 0 0 1 190,110" fill="none" stroke="var(--line)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M10,110 A90,90 0 0 1 190,110" fill="none" stroke="var(--teal)" stroke-width="14" stroke-linecap="round" id="gaugeFill"/>
+            <line x1="100" y1="110" x2="100" y2="35" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" id="gaugeNeedle" style="transform-origin:100px 110px; transform:rotate(-90deg); transition:transform 1s cubic-bezier(.34,1.4,.64,1);"/>
+            <circle cx="100" cy="110" r="6" fill="var(--ink)"/>
+          </svg>
+          <div class="gauge-readout">
+            <div class="score-number" id="scoreNumber">0%</div>
+            <div class="score-verdict" id="scoreVerdict">—</div>
+          </div>
+        </div>
+        <p class="gauge-caption">Keyword Match Score</p>
+      </div>
+
+      <div class="card">
+        <p class="section-title">Readability</p>
+        <div class="stat-row">
+          <span class="stat-number" id="readabilityNumber">—</span>
+          <span class="stat-label" id="readabilityLabel">Paste text to analyze sentence complexity.</span>
+        </div>
+        <hr style="border:none;border-top:1px dashed var(--line);margin:18px 0;">
+        <p class="section-title">Resume Length</p>
+        <div class="stat-row">
+          <span class="stat-number" id="lengthNumber">—</span>
+          <span class="stat-label">words</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card two-col">
+      <div>
+        <p class="section-title"><span class="dot amber"></span>Matched Keywords</p>
+        <div class="chip-row" id="matchedChips"></div>
+      </div>
+      <div>
+        <p class="section-title"><span class="dot red"></span>Missing Keywords</p>
+        <div class="chip-row" id="missingChips"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="section-title">Suggestions</p>
+      <ul class="suggestions" id="suggestionsList"></ul>
+      <details class="how-it-works">
+        <summary>How is this calculated?</summary>
+        <p>We tokenize both texts, strip common stop-words, and extract the most frequent meaningful terms from the job description. The match score is the percentage of those terms that also appear in your resume. Readability uses the Flesch Reading Ease formula (sentence length + syllable count) to estimate how easy your resume is to skim.</p>
+      </details>
+    </div>
+
+    <div class="actions">
+      <button class="ghost" id="downloadBtn">Download Report</button>
+    </div>
+  </section>
+
+  <details class="history-panel">
+    <summary>Scan History <span id="historyCount"></span></summary>
+    <ul class="history-list" id="historyList"></ul>
+    <p class="history-empty" id="historyEmpty">No scans yet — your history will appear here.</p>
+    <button class="clear-history" id="clearHistoryBtn">Clear history</button>
+  </details>
+
+</main>
+
+<footer>Runs entirely in your browser. Nothing is uploaded anywhere.</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
