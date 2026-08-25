@@ -245,3 +245,64 @@ footer{
   *{animation-duration:.01ms !important;transition-duration:.01ms !important;}
 }
 :focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+.site-footer {
+  text-align: center;
+  padding: 28px 16px 20px;
+  font-family: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  color: #7c8698;
+}
+
+.footer-note {
+  font-size: 0.8rem;
+  margin: 0 0 10px;
+  opacity: 0.8;
+}
+
+.footer-credit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  font-size: 0.85rem;
+}
+
+.footer-name strong {
+  color: #d7dce6;
+  font-weight: 600;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7c8698;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.footer-links a svg {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.footer-links a:hover {
+  color: #7fd1c1;
+  background: rgba(127, 209, 193, 0.08);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+  .footer-credit {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
